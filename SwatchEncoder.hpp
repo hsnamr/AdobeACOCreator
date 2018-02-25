@@ -3,6 +3,7 @@
 //  SwatchEncoder
 //
 //  Created by Hussian Al-Amri on 02/12/2018.
+//  Updated 02/24/2018
 //  Copyright © 2018 H4n. All rights reserved.
 //
 
@@ -13,13 +14,6 @@
 #include <array>
 
 namespace SwatchEncoder {
-
-    static const uint16_t kColorSpaceRGB        = 0;
-    static const uint16_t kColorSpaceHSB        = 1;    // Not currently implemented
-    static const uint16_t kColorSpaceCMYK       = 2;    // Not currently implemented
-    static const uint16_t kColorSpaceLAB        = 7;
-    static const uint16_t kColorSpaceGrayscale  = 8;    // Not currently implemented
-
     /**
      * @typedef     aco_struct_lab
      * @brief       This struct holds the information for each color
@@ -54,19 +48,18 @@ namespace SwatchEncoder {
         uint16_t* name;     // [Optional] name will be ignored if len is 0
     } aco_struct_rgb;
     /**
-     * @brief   encodes an array of ACO structs into a .aco file, no error reporting
+     * @brief   encodes an array of ACO structs into a .aco file, no error checking or reporting is performed
      * @param   nColors     size_t
-     * @param   colors      aco_struct_v1
+     * @param   colors      aco_struct_lab
      * @return              vector<uint8_t>     binary data that can be written to file
      */
     std::vector<uint8_t> encodeSwatch_lab(aco_struct_lab* colors, size_t nColors);
 
     /**
-     * @brief   encodes an array of ACO structs into a .aco file, no error reporting
+     * @brief   encodes an array of ACO structs into a .aco file, no error checking or reporting is performed
      * @param   nColors     size_t
-     * @param   colors      aco_struct_v2
+     * @param   colors      aco_struct_rgb
      * @return              vector<uint8_t>     binary data that can be written to file
      */
     std::vector<uint8_t> encodeSwatch_rgb(aco_struct_rgb* colors, size_t nColors);
 }
-
