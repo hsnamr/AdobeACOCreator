@@ -1,5 +1,5 @@
 # AdobeACOCreator
-Create Adobe's .aco file from CIELAB or RGB colors
+Create Adobe's .aco file from CIELAB, RGB or CMYK colors
 
 This implementation is based on information obtained from the following source: http://www.nomodes.com/aco.html
 
