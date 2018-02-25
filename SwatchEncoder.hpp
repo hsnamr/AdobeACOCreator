@@ -3,7 +3,6 @@
 //  SwatchEncoder
 //
 //  Created by Hussian Al-Amri on 02/12/2018.
-//  Updated 02/24/2018
 //  Copyright © 2018 H4n. All rights reserved.
 //
 
@@ -47,19 +46,47 @@ namespace SwatchEncoder {
         size_t len;         // [Optional] pass 0 if you don't want to assign a name to the color
         uint16_t* name;     // [Optional] name will be ignored if len is 0
     } aco_struct_rgb;
+    
     /**
-     * @brief   encodes an array of ACO structs into a .aco file, no error checking or reporting is performed
+     * @typedef     aco_struct_rgb
+     * @brief       This struct holds the information for each color
+     * @constant    C       CMYK value Cyan       ( range: 0..65535 )
+     * @constant    M       CMYK value Magenta    ( range: 0..65535 )
+     * @constant    Y       CMYK value Yellow     ( range: 0..65535 )
+     * @constant    K       CMYK value Black      ( range: 0..65535 )
+     * @constant    len     Length of name (number of characters in name) not including null value if null-terminated string
+     * @constant    name    Name of color (no null terminator), must be in UTF-16 Big Endian
+     */
+    typedef struct __aco_struct_cmyk {
+        uint16_t C;
+        uint16_t M;
+        uint16_t Y;
+        uint16_t K;
+        size_t len;         // [Optional] pass 0 if you don't want to assign a name to the color
+        uint16_t* name;     // [Optional] name will be ignored if len is 0
+    } aco_struct_cmyk;
+    
+    /**
+     * @brief   encodes an array of ACO structs into a .aco file, no error reporting
      * @param   nColors     size_t
      * @param   colors      aco_struct_lab
      * @return              vector<uint8_t>     binary data that can be written to file
      */
-    std::vector<uint8_t> encodeSwatch_lab(aco_struct_lab* colors, size_t nColors);
+    std::vector<uint8_t> encodeSwatch(aco_struct_lab* colors, size_t nColors);
 
     /**
-     * @brief   encodes an array of ACO structs into a .aco file, no error checking or reporting is performed
+     * @brief   encodes an array of ACO structs into a .aco file, no error reporting
      * @param   nColors     size_t
      * @param   colors      aco_struct_rgb
      * @return              vector<uint8_t>     binary data that can be written to file
      */
-    std::vector<uint8_t> encodeSwatch_rgb(aco_struct_rgb* colors, size_t nColors);
+    std::vector<uint8_t> encodeSwatch(aco_struct_rgb* colors, size_t nColors);
+    
+    /**
+     * @brief   encodes an array of ACO structs into a .aco file, no error reporting
+     * @param   nColors     size_t
+     * @param   colors      aco_struct_cmyk
+     * @return              vector<uint8_t>     binary data that can be written to file
+     */
+    std::vector<uint8_t> encodeSwatch(aco_struct_cmyk* colors, size_t nColors);
 }
