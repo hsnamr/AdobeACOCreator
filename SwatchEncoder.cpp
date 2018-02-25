@@ -3,6 +3,7 @@
 //  SwatchEncoder
 //
 //  Created by Hussian Al-Amri on 02/12/2018.
+//  Updated 02/24/2018
 //  Copyright © 2018 H4n. All rights reserved.
 //
 
@@ -17,6 +18,12 @@ static uint16_t kZero = 0x0;
 using std::vector;
 using std::string;
 using namespace SwatchEncoder;
+
+static const uint16_t kColorSpaceRGB        = 0;
+static const uint16_t kColorSpaceHSB        = 1;    // Not currently implemented
+static const uint16_t kColorSpaceCMYK       = 2;    // Not currently implemented
+static const uint16_t kColorSpaceLAB        = 7;
+static const uint16_t kColorSpaceGrayscale  = 8;    // Not currently implemented
 
 typedef struct __internal_aco_struct {
     uint16_t w;
@@ -34,7 +41,7 @@ uint16_t swap_uint16(uint16_t val) {
     return (val << 8) | (val >> 8 );
 }
 
-vector<uint8_t> __encodeSwatch(int16_t version, _internal_aco_struct* colors, int16_t nColors) {
+vector<uint8_t> __encodeSwatch(int16_t version, _internal_aco_struct* colors, int16_t nColors, uint16_t colorSpace ) {
     vector<uint8_t> mData;
     // version
     int16_t versionBE = swap_uint16(version);
@@ -43,7 +50,7 @@ vector<uint8_t> __encodeSwatch(int16_t version, _internal_aco_struct* colors, in
     int16_t nColorsBE = swap_uint16(nColors);
     appendBytes(mData, static_cast<uint8_t*>(static_cast<void*>(&nColorsBE)), 2);
     // color space
-    int16_t colorSpace = swap_uint16(kColorSpaceLAB);
+    int16_t colorSpaceBE = swap_uint16(colorSpace);
     
     // variable for the total number of colors
     for (size_t i = 0; i < nColors; i++) {
@@ -53,7 +60,7 @@ vector<uint8_t> __encodeSwatch(int16_t version, _internal_aco_struct* colors, in
         int16_t y = swap_uint16((uint16_t)colors[i].y);
         
         // color space
-        appendBytes(mData, static_cast<uint8_t*>(static_cast<void*>(&colorSpace)), 2);
+        appendBytes(mData, static_cast<uint8_t*>(static_cast<void*>(&colorSpaceBE)), 2);
         // w
         appendBytes(mData, static_cast<uint8_t*>(static_cast<void*>(&w)), 2);
         // x
@@ -85,9 +92,9 @@ vector<uint8_t> __encodeSwatch(int16_t version, _internal_aco_struct* colors, in
 }
 
 vector<uint8_t> encodeSwatch_lab(aco_struct_lab* colors, size_t nColors) {
-    return __encodeSwatch(2, (__internal_aco_struct*)colors, (int16_t)nColors);
+    return __encodeSwatch(2, (__internal_aco_struct*)colors, (int16_t)nColors, kColorSpaceLAB);
 }
 
 vector<uint8_t> encodeSwatch_lab(aco_struct_rgb* colors, size_t nColors) {
-    return __encodeSwatch(2, (__internal_aco_struct*)colors, (int16_t)nColors);
+    return __encodeSwatch(2, (__internal_aco_struct*)colors, (int16_t)nColors, kColorSpaceRGB);
 }
