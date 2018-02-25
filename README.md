@@ -1,2 +1,2 @@
 # AdobeACOCreator
-Create Adobe's .aco file from CIELAB colors
+Create Adobe's .aco file from CIELAB or RGB colors
