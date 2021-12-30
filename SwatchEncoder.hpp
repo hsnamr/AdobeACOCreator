@@ -2,7 +2,7 @@
 //  SwatchEncoder.hpp
 //  SwatchEncoder
 //
-//  Created by Hussian Al-Amri on 02/12/2018.
+//  Created on 02/12/2018.
 //  Copyright © 2018 H4n. All rights reserved.
 //
 
